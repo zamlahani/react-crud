@@ -9,7 +9,6 @@ A slightly opinionated yet dead simple boilerplate for ReactJS, Webpack 4, and R
 :heart: React Router
 <br/>
 :heart: Redux 
-<br/>
 
 <div align="center"> 
  <br /><br />
