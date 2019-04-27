@@ -36,7 +36,7 @@ class Entity extends Component {
 
     if (error) {
       return (
-        <div className="m-bottom--small">
+        <div className="m-top--small m-bottom--small">
           <Icon icon="exclamation-triangle" className="has-text-danger"/>
           &nbsp;Failed to fetch&nbsp;<code>{name}</code>
           &nbsp;due to&nbsp;<code className="has-text-danger">{error.toString()}</code>
@@ -46,7 +46,7 @@ class Entity extends Component {
 
     if (isFetching) {
       return (
-        <div className="m-bottom--small">
+        <div className="m-top--small m-bottom--small">
           Fetching fresh data!
         </div>
       );
@@ -54,7 +54,9 @@ class Entity extends Component {
 
     if (isEmpty(data)) {
       return (
-        <span>Entity <code>{name}</code> is reset.</span>
+        <div className="m-top--small m-bottom--small">
+          Entity <code>{name}</code> is reset.
+        </div>
       );
     }
 
@@ -62,7 +64,7 @@ class Entity extends Component {
     const message = append ? <span>&nbsp;took&nbsp;<code>{data.delay}s</code></span> : null;
 
     return (
-      <div className="m-bottom--small">
+      <div className="m-top--small m-bottom--small">
         <Icon icon="check" className="has-text-success"/>&nbsp;
         {action}
         <code>{name}</code>
@@ -130,7 +132,7 @@ class Entity extends Component {
     const { isFetching } = entity;
 
     return (
-      <div className="m-top--large m-bottom--large">
+      <div>
         {this.renderContent(name, entity)}
         <div className="field has-addons">
           {this.fetchButton(isFetching)}
@@ -143,11 +145,9 @@ class Entity extends Component {
 }
 
 const NoEntity = ({ name }) => (
-  <div className="m-top--large">
-    <div className="m-bottom--small">
-      <Icon icon="exclamation-triangle" className="has-text-danger"/>
-      &nbsp;Entity&nbsp;<code>{name}</code>&nbsp;does not exist on&nbsp;<code>entities</code>
-    </div>
+  <div className="m-top--small m-bottom--small">
+    <Icon icon="exclamation-triangle" className="has-text-danger"/>
+    &nbsp;Entity&nbsp;<code>{name}</code>&nbsp;does not exist on&nbsp;<code>entities</code>
   </div>
 );
 

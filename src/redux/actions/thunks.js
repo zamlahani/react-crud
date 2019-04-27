@@ -33,5 +33,8 @@ export function fetchBaz () {
   return loadEntity(
     ENTITY_KEY.BAZ,
     ExampleDomainService.getFakePromise(true)
+      .catch(error => {
+        console.error(error);
+      })
   );
 }

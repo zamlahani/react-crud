@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom';
 
 import ReduxEntity from './examples/redux-entity/ReduxEntity';
 import ReduxState from './examples/ReduxState';
-import TabbedRouter from './examples/router/TabbedRouter';
+import AsyncTabbedRouter from './examples/router/AsyncTabbedRouter';
 
 import Icon from './common/Icon';
 import NavBar from './common/bulma/Navbar';
@@ -52,7 +52,7 @@ const Body = ({
                       Utilizes <a href={URL.REACT_ROUTER}>react-router</a>&nbsp;v4 for client-side routing
                   </span>
                 )}
-                body={<TabbedRouter location={location} history={history}/>}
+                body={<AsyncTabbedRouter location={location} history={history}/>}
               />
             </div>
           </div>

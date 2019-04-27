@@ -1,14 +1,16 @@
 const presets = [
   [
-    "@babel/env",
+    '@babel/env',
     {
-        targets: {
-          esmodules: true
-        },
-        useBuiltIns: "entry",
-    },
+      targets: {
+        esmodules: true
+      },
+      useBuiltIns: 'entry'
+    }
   ],
-  ["@babel/react",],
+  ['@babel/react' ]
 ];
 
-module.exports = { presets };
+const plugins = ['@babel/plugin-syntax-dynamic-import'];
+
+module.exports = { presets, plugins };

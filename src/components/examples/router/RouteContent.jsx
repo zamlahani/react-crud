@@ -4,21 +4,6 @@ import { connect } from 'react-redux';
 
 import Flex from '../../common/glamorous/Flex';
 import Icon from '../../common/Icon';
-import { ROUTES } from '../../../common/app-const';
-
-const __isRouteMatch = (pathname, test) => {
-  if (!pathname || !test) return false;
-  return pathname.indexOf(test) !== -1;
-};
-
-const __getRouteProps = (pathname) => {
-  const route = ROUTES.find(route => {
-    if (__isRouteMatch(pathname, route.path)) {
-      return route;
-    }
-  });
-  return route || ROUTES[0];
-};
 
 const RouteContent = ({
   path,
@@ -60,9 +45,8 @@ RouteContent.propTypes = {
 };
 
 export default connect(
-  (state, ownProps) => {
+  (state) => {
     return {
-      ...__getRouteProps(ownProps.location.pathname),
       ...{ counter: state.counter }
     };
   }

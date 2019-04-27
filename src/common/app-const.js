@@ -1,5 +1,3 @@
-import { increment, decrement, reset } from '../redux/actions/action-creators';
-
 export const ENTITY_KEY = {
   FOO: 'foo',
   BAR: 'bar',
@@ -15,24 +13,3 @@ export const INITIAL_STATE = {
   },
   counter: 0
 };
-
-export const ROUTES = [
-  {
-    icon: 'plus',
-    path: null,
-    label: 'Increment',
-    action: increment
-  },
-  {
-    icon: 'minus',
-    path: '/decrement',
-    label: 'Decrement',
-    action: decrement
-  },
-  {
-    icon: 'history',
-    path: '/reset',
-    label: 'Reset',
-    action: reset
-  }
-];

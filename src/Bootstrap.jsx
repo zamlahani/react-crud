@@ -14,13 +14,13 @@ import './assets/images/favicon.ico';
 
 const store = configureStore(INITIAL_STATE);
 
-const ROOT_ELEMENT_ID_AS_DEFINED_IN_INDEX_HTML = 'example-app';
+const ROOT_ELEMENT = 'example-app';
 
 ReactDOM.render(
   <AppContainer>
     <Root store={store}/>
   </AppContainer>,
-  document.getElementById(ROOT_ELEMENT_ID_AS_DEFINED_IN_INDEX_HTML)
+  document.getElementById(ROOT_ELEMENT)
 );
 
 // Hot Module Replacement API
@@ -31,7 +31,7 @@ if (module.hot) {
       <AppContainer>
         <NextApp store={store}/>
       </AppContainer>,
-      document.getElementById(ROOT_ELEMENT_ID_AS_DEFINED_IN_INDEX_HTML)
+      document.getElementById(ROOT_ELEMENT)
     );
   });
 }
