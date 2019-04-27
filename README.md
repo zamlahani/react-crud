@@ -11,7 +11,6 @@ A slightly opinionated yet dead simple boilerplate for ReactJS, Webpack 4, and R
 :heart: Redux 
 
 <div align="center"> 
- <br /><br />
   <a href="https://travis-ci.org/mikechabot/react-boilerplate">
     <img src="https://travis-ci.org/mikechabot/react-boilerplate.svg?branch=master" alt="build status" />
   </a>
