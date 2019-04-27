@@ -37,7 +37,7 @@ const AsyncTabbedRouter = ({
         id="router-example-tabs"
         activeKey={location.pathname}
         onSelect={(eventKey) => history.push(eventKey)}>
-        <Tab eventKey="/increment" label="Increment">
+        <Tab eventKey="/" label="Increment">
           <Route exact path="/" component={AsyncIncrement}/>
         </Tab>
         <Tab eventKey="/decrement" label="Decrement">

@@ -17,14 +17,14 @@ if (NodeService.isProduction()) {
   // Configure static resources
   app.use(
     express.static(
-      path.join(__dirname, '/dist')
+      path.join(__dirname, '/docs')
     )
   );
 
   // Configure server-side routing
   app.get('*', (req, res) => {
     const dist = path.join(
-      __dirname, '/dist/index.html'
+      __dirname, '/docs/index.html'
     );
     res.sendFile(dist);
   });

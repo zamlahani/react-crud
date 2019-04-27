@@ -22,7 +22,7 @@ function getPlugins () {
   return [
     // Clear the output dir before builds
     new CleanPlugin({
-      files: ['dist/*']
+      files: ['docs/*']
     }),
 
     // Extract CSS to a separate file
@@ -135,7 +135,7 @@ const webpackConfig = {};
 
 // Configure the output directory and bundle name
 webpackConfig.output = {
-  path: path.join(__dirname, 'dist'),
+  path: path.join(__dirname, 'docs'),
   filename: 'bundle.js'
 };
 
