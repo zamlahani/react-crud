@@ -27,15 +27,14 @@
 
  http://mikechabot.github.io/react-boilerplate/dist
  
- > Pretty landing page located [here]( http://mikechabot.github.io/react-boilerplate/)
-
 ----
 
 ## <a id="features">Features</a>
 
 #### Build Process
  * Built with [webpack 4](https://webpack.js.org/configuration/)
- * Supports ES6 via [Babel](https://babeljs.io/) transpiling
+ * Code splitting at the [react-router v4](https://github.com/reactjs/react-router) level
+ * Supports ES6 via [Babel](https://babeljs.io/) transpiling 
 
 #### State Management
 * [redux-entity](https://github.com/mikechabot/redux-entity) for domain entity management
