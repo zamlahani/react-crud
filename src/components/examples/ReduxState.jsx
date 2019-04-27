@@ -3,21 +3,21 @@ import React from 'react';
 import _isObject from 'lodash/isObject';
 import { connect } from 'react-redux';
 
-const _stringifyErrors = (obj) => {
+const stringifyErrors = (obj) => {
   if (!obj) return;
   for (let prop in obj) {
     if (obj.hasOwnProperty(prop) && obj[prop] && typeof obj[prop] === 'object') {
       if (obj[prop] instanceof Error) {
         obj[prop] = obj[prop].toString();
       } else {
-        _stringifyErrors(obj[prop]);
+        stringifyErrors(obj[prop]);
       }
     }
   }
 };
 
-const _getContentAsString = (content) => {
-  _stringifyErrors(content);
+const getContestAsString = (content) => {
+  stringifyErrors(content);
   return _isObject(content)
     ? JSON.stringify(content, null, 2)
     : content;
@@ -28,7 +28,7 @@ class ReduxState extends React.Component {
     return (
       <pre className="m-top--small">
         {
-          _getContentAsString(this.props.state)
+          getContestAsString(this.props.state)
             .split('\n')
             .map((line, index) => (
               <div key={index} className="line">

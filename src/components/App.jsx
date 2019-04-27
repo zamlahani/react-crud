@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 
@@ -7,89 +7,88 @@ import ReduxState from './examples/ReduxState';
 import TabbedRouter from './examples/router/TabbedRouter';
 
 import Icon from './common/Icon';
-import Navbar from './common/bulma/Navbar';
+import NavBar from './common/bulma/Navbar';
 import Footer from './Footer';
-import Hero from './common/bulma/Hero';
-import Columns from './common/bulma/Columns';
 import Flex from './common/glamorous/Flex';
 
-const COLUMN_MAP = {
-  ROUTER: {
-    title: 'Router',
-    subtitle: <span>Utilizes <a href="https://github.com/ReactTraining/react-router">react-router</a>&nbsp;v4 for client-side routing</span>,
-    icon: 'link',
-    getContent: (location, history) => <TabbedRouter location={location} history={history}/>
-  },
-  STATE_MANAGEMENT: {
-    title: 'State Management',
-    subtitle: <span>Utilizes&nbsp;<a href="https://github.com/mikechabot/redux-entity">redux-entity</a>&nbsp;for domain entity management</span>,
-    icon: 'sitemap',
-    iconPrefix: 'fas',
-    getContent: () => <ReduxEntity/>
-  },
-  REDUX_STATE: {
-    title: 'State Tree',
-    subtitle: 'Open devtools to view dispatched actions',
-    icon: 'tree',
-    getContent: () => <ReduxState/>
-  }
+const URL = {
+  REDUX_ENTITY: 'https://github.com/mikechabot/redux-entity',
+  REACT_ROUTER: 'https://github.com/ReactTraining/react-router',
+  BOILERPLATE: 'http://www.github.com/mikechabot/react-boilerplate'
 };
 
-const Body = ({
-  location,
-  history
-}) => {
-  const { ROUTER, STATE_MANAGEMENT, REDUX_STATE } = COLUMN_MAP;
-  return (
-    <Hero
-      content={(
-        <div>
-
-          {/* Render router example */}
-          <Columns
-            columns={[
-              (
-                <span key={1}>
-                  {_renderTitleAndSubtitle(ROUTER.title, ROUTER.subtitle, ROUTER.icon, ROUTER.iconPrefix)}
-                  {ROUTER.getContent(location, history)}
-                </span>
-              )]}
-          />
-
-          {/* Render AJAX example with redux-entity, and display Redux state */}
-          <Columns
-            columns={[
-              (
-                <span key={1}>
-                  {_renderTitleAndSubtitle(STATE_MANAGEMENT.title, STATE_MANAGEMENT.subtitle, STATE_MANAGEMENT.icon)}
-                  {STATE_MANAGEMENT.getContent(location, history)}
-                </span>
-              ),
-              (
-                <span key={2}>
-                  {_renderTitleAndSubtitle(REDUX_STATE.title, REDUX_STATE.subtitle, REDUX_STATE.icon)}
-                  <ReduxState/>
-                </span>
-              )
-            ]}
-          />
-        </div>
-      )}
-    />
-  );
-};
-
-const _renderTitleAndSubtitle = (title, subtitle, icon, iconPrefix) => {
-  return (
+const ColumnBody = ({ title, subtitle, icon, body }) => (
+  <Fragment>
     <div>
       <h1 className="title">
-        <Icon icon={icon} className="has-text-info" prefix={iconPrefix}/>&nbsp;{title}
+        <Icon icon={icon} className="has-text-info"/>&nbsp;{title}
       </h1>
       <h2 className="subtitle ">
         <Icon icon="angle-right"/>&nbsp;
         {subtitle}
       </h2>
     </div>
+    {body}
+  </Fragment>
+);
+
+const Body = ({
+  location,
+  history
+}) => {
+  return (
+    <section className="hero">
+      <div className="hero-body">
+        <div className="container">
+
+          {/* Show router example */}
+          <div className="columns">
+            <div className="column">
+              <ColumnBody
+                icon="link"
+                title="Router"
+                subtitle={(
+                  <span>
+                      Utilizes <a href={URL.REACT_ROUTER}>react-router</a>&nbsp;v4 for client-side routing
+                  </span>
+                )}
+                body={<TabbedRouter location={location} history={history}/>}
+              />
+            </div>
+          </div>
+
+          {/* Show redux-entity (AJAX example) */}
+          <div className="columns">
+            <div className="column">
+              <ColumnBody
+                icon="sitemap"
+                title="State Management"
+                subtitle={ (
+                  <span>Utilizes&nbsp;
+                    <a href={URL.REDUX_ENTITY}>redux-entity</a>&nbsp;for domain entity management
+                  </span>
+                )}
+                body={<ReduxEntity />}
+              />
+            </div>
+
+            {/* Show redux state */}
+            <div className="column">
+              <ColumnBody
+                icon="tree"
+                title="State Tree"
+                subtitle={(
+                  <span>
+                    Open devtools to view dispatched actions
+                  </span>
+                )}
+                body={<ReduxState />}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 };
 
@@ -97,20 +96,22 @@ const App = ({ location, history }) => {
   return (
     <Flex column height="100%" width="100%" justifyContent="space-between">
       <div>
-        <Navbar brand={{
-          icon: 'cloud',
-          url: 'http://www.github.com/mikechabot/react-boilerplate',
-          label: 'react-boilerplate'
-        }}/>
+        <NavBar
+          url={URL.BOILERPLATE}
+          label="react-boilerplate"
+        />
       </div>
-      <div>
-        <Body location={location} history={history}/>
-      </div>
-      <div>
-        <Footer/>
-      </div>
+      <Body location={location} history={history}/>
+      <Footer/>
     </Flex>
   );
+};
+
+ColumnBody.propTypes = {
+  title: PropTypes.string.isRequired,
+  subtitle: PropTypes.node.isRequired,
+  icon: PropTypes.string.isRequired,
+  body: PropTypes.node.isRequired
 };
 
 App.propTypes = {

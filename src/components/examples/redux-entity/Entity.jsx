@@ -1,51 +1,37 @@
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import React from 'react';
 import moment from 'moment';
-import _isEmpty from 'lodash/isEmpty';
+import isEmpty from 'lodash/isEmpty';
 import { connect } from 'react-redux';
 import { resetEntity, deleteEntity } from 'redux-entity';
 
 import Icon from '../../common/Icon';
 
-class Entity extends React.Component {
+class Entity extends Component {
+  constructor (props) {
+    super(props);
+    this.deleteEntity = this.deleteEntity.bind(this);
+    this.resetEntity = this.resetEntity.bind(this);
+  }
+
   componentDidMount () {
     if (this.props.runFetchEntityOnMount) {
       this.props.fetchEntity();
     }
   }
 
-  render () {
-    const { name, entity } = this.props;
-
-    if (_isEmpty(entity)) {
-      return this._renderEntityDoesNotExist(name);
-    }
-
-    const { isFetching, data } = entity;
-
-    return (
-      <div className="m-top--large m-bottom--large">
-        {this._renderContent(name, entity)}
-        <div className="field has-addons">
-          {this._renderButtons(isFetching, data)}
-        </div>
-      </div>
-    );
+  deleteEntity () {
+    const { name, deleteEntity } = this.props;
+    deleteEntity(name);
   }
 
-  _renderEntityDoesNotExist (entityName) {
-    return (
-      <div className="m-top--large m-bottom--large">
-        <div className="m-bottom--small">
-          <Icon icon="exclamation-triangle" className="has-text-danger"/>
-          &nbsp;Entity&nbsp;<code>{entityName}</code>&nbsp;does not exist on&nbsp;<code>entities</code>
-        </div>
-        {this._renderFetch()}
-      </div>
-    );
+  resetEntity () {
+    const { name, resetEntity } = this.props;
+    resetEntity(name, Date.now());
   }
 
-  _renderContent (name, entity) {
+  renderContent (name, entity) {
+    const { append } = this.props;
     const { isFetching, data, error } = entity;
 
     if (error) {
@@ -61,103 +47,113 @@ class Entity extends React.Component {
     if (isFetching) {
       return (
         <div className="m-bottom--small">
-          <Icon icon="cog fa-spin"/>
-          &nbsp;Fetching fresh data!
+          Fetching fresh data!
         </div>
       );
     }
 
-    if (!_isEmpty(data)) {
-      return (
-        <div className="m-bottom--small">
-          <Icon icon="check" className="has-text-success"/>
-          &nbsp;
-          {this._renderActionVerb()}
-          &nbsp;
-          <code>{name}</code>
-          {this._renderEntityData(data)}
-          &nbsp;
-          {this._renderLastUpdated(data)}
-        </div>
-      );
-    } else {
+    if (isEmpty(data)) {
       return (
         <span>Entity <code>{name}</code> is reset.</span>
       );
     }
-  }
 
-  _renderActionVerb () {
-    return this.props.append ? 'Appending to' : 'Fetch for';
-  }
+    const action = append ? 'Appending to ' : 'Fetch for ';
+    const message = append ? <span>&nbsp;took&nbsp;<code>{data.delay}s</code></span> : null;
 
-  _renderEntityData (data) {
-    if (!this.props.append) {
-      return (<span>&nbsp;took&nbsp;<code>{data.delay}s</code></span>);
-    }
-  }
-
-  _renderLastUpdated (data) {
     return (
-      <span>
-                @&nbsp;<code>{moment(data.lastUpdated).format('LTS')}</code>
-      </span>
+      <div className="m-bottom--small">
+        <Icon icon="check" className="has-text-success"/>&nbsp;
+        {action}
+        <code>{name}</code>
+        {message}
+        <span>
+            @&nbsp;<code>{moment(data.lastUpdated).format('LTS')}</code>
+        </span>
+      </div>
     );
   }
 
-  _renderButton (label, icon, onClick) {
+  fetchButton (isFetching) {
     return (
-      <p key={label} className="control">
-        <a className="button" onClick={onClick}>
+      <p key="Fetch" className="control">
+        <a className={`button is-info ${isFetching ? 'is-loading' : ''}`} onClick={this.props.fetchEntity}>
           <span className="icon">
-            <Icon icon={icon}/>
+            <Icon icon="download"/>
           </span>
-          <span>{label}</span>
+          <span>Fetch</span>
         </a>
       </p>
     );
   }
 
-  _renderFetch () {
-    return this._renderButton('Fetch', 'download', this.props.fetchEntity);
+  resetButton (isFetching) {
+    const onClick = !isFetching ? this.resetEntity : () => {};
+    return (
+      <p key="Reset" className="control">
+        <a className="button" disabled={isFetching} onClick={onClick}>
+          <span className="icon">
+            <Icon icon="history"/>
+          </span>
+          <span>Reset</span>
+        </a>
+      </p>
+    );
   }
 
-  _renderReset () {
-    return this._renderButton('Reset', 'history', this._resetEntity.bind(this));
+  deleteButton (isFetching) {
+    const onClick = !isFetching ? this.deleteEntity : () => {};
+    return (
+      <p key="Delete" className="control">
+        <a className="button is-danger" disabled={isFetching} onClick={onClick}>
+          <span className="icon">
+            <Icon icon="trash"/>
+          </span>
+          <span>Delete</span>
+        </a>
+      </p>
+    );
   }
 
-  _renderDelete () {
-    return this._renderButton('Delete', 'trash', this._deleteEntity.bind(this));
-  }
+  render () {
+    const { name, entity } = this.props;
 
-  _renderButtons (isFetching, data, error) {
-    if (isFetching) {
-      return <span/>;
+    if (isEmpty(entity)) {
+      return (
+        <Fragment>
+          <NoEntity name={name}/>
+          {this.fetchButton()}
+        </Fragment>
+      );
     }
-    if (!_isEmpty(data) || error) {
-      return [
-        this._renderFetch(),
-        this._renderReset(),
-        this._renderDelete()
-      ];
-    } else {
-      return [
-        this._renderFetch(),
-        this._renderDelete()
-      ];
-    }
-  }
 
-  _deleteEntity () {
-    const { name, deleteEntity } = this.props;
-    deleteEntity(name);
-  }
+    const { isFetching } = entity;
 
-  _resetEntity () {
-    const { name, resetEntity } = this.props;
-    resetEntity(name, Date.now());
+    return (
+      <div className="m-top--large m-bottom--large">
+        {this.renderContent(name, entity)}
+        <div className="field has-addons">
+          {this.fetchButton(isFetching)}
+          {this.resetButton(isFetching)}
+          {this.deleteButton(isFetching)}
+        </div>
+      </div>
+    );
   }
 }
+
+const NoEntity = ({ name }) => (
+  <div className="m-top--large">
+    <div className="m-bottom--small">
+      <Icon icon="exclamation-triangle" className="has-text-danger"/>
+      &nbsp;Entity&nbsp;<code>{name}</code>&nbsp;does not exist on&nbsp;<code>entities</code>
+    </div>
+  </div>
+);
+
+NoEntity.propTypes = {
+  name: PropTypes.string.isRequired
+};
 
 Entity.propTypes = {
   name: PropTypes.string.isRequired,

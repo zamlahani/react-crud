@@ -23,7 +23,6 @@ const ReduxEntity = ({
         return fetchBaz;
     }
   };
-
   return (
     <Flex column className="notification is-light m-top--small">
       {

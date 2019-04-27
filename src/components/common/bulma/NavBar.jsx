@@ -1,20 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import icon from '../../../assets/images/logo.png';
+import logo from '../../../assets/images/logo.png';
+import Icon from '../Icon';
 
-const _renderBrand = (brand) => {
-  return (
-    <a
-      href={brand.url}
-      className="navbar-item is-size-3">
-      <img src={icon} height={64} width={64}/>
-      <span>{brand.label}</span>
-    </a>
-  );
-};
+const URL = 'http://www.github.com/mikechabot/react-boilerplate';
 
-const Navbar = ({
-  brand
+const NavBar = ({
+  url,
+  label
 }) => {
   return (
     <nav
@@ -23,14 +16,29 @@ const Navbar = ({
       aria-label="main navigation"
       style={{ width: '100%' }}>
       <div className="navbar-brand">
-        {_renderBrand(brand)}
+        <a
+          href={url}
+          className="navbar-item is-size-3">
+          <img src={logo} height={64} width={64}/>
+          <span>{label}</span>
+        </a>
+      </div>
+      <div className="navbar-end">
+        <div className="navbar-item">
+          <a className="button is-dark" href={URL}>
+            <span className="icon is-small">
+              <Icon icon="github" prefix="fab" size="fa-2x"/>
+            </span>
+          </a>
+        </div>
       </div>
     </nav>
   );
 };
 
-Navbar.propTypes = {
-  brand: PropTypes.object.isRequired
+NavBar.propTypes = {
+  url: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired
 };
 
-export default Navbar;
+export default NavBar;

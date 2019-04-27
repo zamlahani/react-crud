@@ -4,12 +4,13 @@ import PropTypes from 'prop-types';
 const Icon = ({
   icon,
   prefix,
-  className
+  className,
+  size = 'fa-1x'
 }) => {
   let iconPrefix = prefix || 'fa';
   return (
     <span>
-      <i className={`${iconPrefix} fa-${icon} ${className || ''}`}/>
+      <i className={`${iconPrefix} fa-${icon} ${className || ''} ${size}`}/>
     </span>
   );
 };
@@ -17,7 +18,8 @@ const Icon = ({
 Icon.propTypes = {
   icon: PropTypes.string.isRequired,
   prefix: PropTypes.string,
-  className: PropTypes.string
+  className: PropTypes.string,
+  size: PropTypes.string
 };
 
 export default Icon;
