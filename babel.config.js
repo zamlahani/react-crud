@@ -5,10 +5,12 @@ const presets = [
       targets: {
         esmodules: true
       },
-      useBuiltIns: 'entry'
+      useBuiltIns: 'entry',
+      corejs: '3'
     }
+
   ],
-  ['@babel/react' ]
+  [ '@babel/react' ]
 ];
 
 const plugins = ['@babel/plugin-syntax-dynamic-import'];

@@ -27,8 +27,8 @@ function getPlugins () {
 
     // Extract CSS to a separate file
     new MiniCssExtractPlugin({
-      filename: NodeUtils.isProduction() ? '[name].[hash].css' : '[name].css',
-      chunkFilename: NodeUtils.isProduction() ? '[id].[hash].css' : '[id].css'
+      filename: !NodeUtils.isDevelopment() ? '[name].[hash].css' : '[name].css',
+      chunkFilename: !NodeUtils.isDevelopment() ? '[id].[hash].css' : '[id].css'
     }),
 
     // Ignore moment locales
@@ -111,7 +111,7 @@ function getParserRules () {
     },
     {
       test: /\.scss$/,
-      use: NodeUtils.isProduction() ? prodSassLoaders : devSassLoaders,
+      use: !NodeUtils.isDevelopment() ? prodSassLoaders : devSassLoaders,
       include: APP_DIR
     },
     {
@@ -156,7 +156,7 @@ webpackConfig.module = {
 };
 
 // Add additional configurations based on NODE_ENV
-if (NodeUtils.isProduction()) {
+if (!NodeUtils.isDevelopment()) {
   webpackConfig.entry = './src/Bootstrap';
   webpackConfig.mode = 'production';
 } else {

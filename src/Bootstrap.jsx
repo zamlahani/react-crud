@@ -7,9 +7,7 @@ import configureStore from './redux/store/configure-store';
 import { INITIAL_STATE } from './common/app-const';
 
 // Require globals
-import '@babel/polyfill';
 import './scss/style.scss';
-import 'lodash';
 import './assets/images/favicon.ico';
 
 const store = configureStore(INITIAL_STATE);

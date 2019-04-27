@@ -8,6 +8,7 @@
     "prod": "npm run build:prod && npm run start-prod-server",
     "build:dev": "cross-env NODE_ENV=development webpack --progress --colors",
     "build:prod": "cross-env NODE_ENV=production webpack --progress --colors",
+    "build:gh-pages": "cross-env NODE_ENV=gh-pages webpack --progress --colors",
     "start-dev-server": "cross-env NODE_ENV=development node server.js",
     "start-prod-server": "cross-env NODE_ENV=production node server.js",
     "test": "nyc mocha",
@@ -36,9 +37,9 @@
     "report-dir": "./.nyc-coverage"
   },
   "dependencies": {
-    "@babel/polyfill": "^7.4.4",
     "axios": "^0.18.0",
     "bulma": "^0.7.4",
+    "core-js": "^3.0.1",
     "cross-env": "^5.2.0",
     "express": "^4.16.4",
     "glamor": "^2.20.40",

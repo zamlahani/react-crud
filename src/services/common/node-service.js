@@ -18,6 +18,9 @@ module.exports = svc = {
   isDevelopment: function () {
     return svc.getNodeEnvMode() === 'development';
   },
+  isGhPages: function () {
+    return svc.getNodeEnvMode() === 'gh-pages';
+  },
   isTest: function () {
     return !svc.getNodeEnvMode() || svc.getNodeEnvMode() === 'test';
   }

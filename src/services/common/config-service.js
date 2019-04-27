@@ -28,5 +28,10 @@ module.exports = {
   },
   getBaseUrl () {
     return this.getRequiredProperty('example.baseUrl');
+  },
+  getPublicBasename () {
+    return NodeUtils.isGhPages()
+      ? this.getRequiredProperty('example.publicBasename')
+      : '/';
   }
 };

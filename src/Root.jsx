@@ -3,6 +3,8 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 
+import ConfigService from './services/common/config-service';
+
 import App from './components/App';
 
 export default function Root ({
@@ -10,7 +12,7 @@ export default function Root ({
 }) {
   return (
     <Provider store={store}>
-      <BrowserRouter>
+      <BrowserRouter basename={ConfigService.getPublicBasename()}>
         <App/>
       </BrowserRouter>
     </Provider>
