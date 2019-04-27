@@ -136,7 +136,7 @@ const webpackConfig = {};
 // Configure the output directory and bundle name
 webpackConfig.output = {
   path: path.join(__dirname, 'docs'),
-  filename: 'bundle.js'
+  filename: '[name].[contenthash].js'
 };
 
 // Allow webpack to automatically resolve import extensions
