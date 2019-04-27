@@ -3,7 +3,10 @@ import PropTypes from 'prop-types';
 import logo from '../../../assets/images/logo.png';
 import Icon from '../Icon';
 
-const URL = 'http://www.github.com/mikechabot/react-boilerplate';
+const URL = {
+  GH: 'http://www.github.com/mikechabot/react-boilerplate',
+  NPM: 'https://www.npmjs.com/~mikechabot'
+};
 
 const NavBar = ({
   url,
@@ -25,7 +28,14 @@ const NavBar = ({
       </div>
       <div className="navbar-end">
         <div className="navbar-item">
-          <a className="button is-dark" href={URL}>
+          <a className="button is-dark" href={URL.NPM}>
+            <span className="icon is-small has-text-danger">
+              <Icon icon="npm" prefix="fab" size="fa-2x"/>
+            </span>
+          </a>
+        </div>
+        <div className="navbar-item">
+          <a className="button is-dark" href={URL.GH}>
             <span className="icon is-small">
               <Icon icon="github" prefix="fab" size="fa-2x"/>
             </span>
