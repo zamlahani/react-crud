@@ -1,6 +1,5 @@
 export const INITIAL_STATE = {
 	todos: [],
-	isFormModalOpen: false,
 	formModal: {
 		isOpen: false,
 		isCreateForm: true,

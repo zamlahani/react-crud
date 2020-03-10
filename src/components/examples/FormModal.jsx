@@ -51,9 +51,6 @@ export default function FormModal({ close }) {
 		);
 		dispatch(closeFormModal());
 	}
-	useEffect(() => {
-		console.log(fields, id);
-	}, [fields, id]);
 	return (
 		<div className={`modal ${isOpen ? 'is-active' : ''}`}>
 			<div

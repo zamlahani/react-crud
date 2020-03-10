@@ -1,17 +1,53 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Icon from '../common/Icon';
 import { useSelector, useDispatch } from 'react-redux';
 import { editTodo, deleteTodo } from '../../redux/actions/action-creators';
-
+import Error from '../common/Error';
 export default function TodoTable(props) {
 	return (
-		<table className="table is-hoverable">
-			<tbody>
-				{props.data.map((val, i) => {
-					return <TheRow key={i} no={i + 1} val={val} />;
-				})}
-			</tbody>
-		</table>
+		<div>
+			{props.data.length > 0 ? <TheTable data={props.data} /> : 'No data'}
+		</div>
+	);
+}
+
+function TheTable(props) {
+	return (
+		<div className="table-container">
+			<table className="table is-hoverable is-fullwidth">
+				<thead>
+					<tr>
+						<th>No.</th>
+						<th>Title</th>
+						<th>Description</th>
+						<th>Created At</th>
+					</tr>
+				</thead>
+				<tbody>
+					{props.data
+						.sort((a, b) => {
+							let el1, el2;
+							if (a.status === 0) {
+								el1 = a;
+								el2 = b;
+							} else {
+								el1 = b;
+								el2 = a;
+							}
+							if (el1.createdAt < el2.createdAt) {
+								return -1;
+							}
+							if (el1.createdAt > el2.createdAt) {
+								return 1;
+							}
+							return 0;
+						})
+						.map((val, i) => {
+							return <TheRow key={i} no={i + 1} val={val} />;
+						})}
+				</tbody>
+			</table>
+		</div>
 	);
 }
 
@@ -26,9 +62,9 @@ function TheRow({ val, no }) {
 	}
 	return (
 		<tr>
-			<td>
-				<WrapperLink>{no}</WrapperLink>
-			</td>
+			<th>
+				<WrapperLink onClick={handleClick}>{no}</WrapperLink>
+			</th>
 			<td>
 				<WrapperLink onClick={handleClick}>{val.title}</WrapperLink>
 				<DetailModal
@@ -38,13 +74,12 @@ function TheRow({ val, no }) {
 				/>
 			</td>
 			<td>
-				<WrapperLink>{val.description}</WrapperLink>
+				<WrapperLink onClick={handleClick}>
+					{val.description}
+				</WrapperLink>
 			</td>
 			<td>
-				<WrapperLink>{val.status}</WrapperLink>
-			</td>
-			<td>
-				<WrapperLink>{val.createdAt}</WrapperLink>
+				<WrapperLink onClick={handleClick}>{val.createdAt}</WrapperLink>
 			</td>
 		</tr>
 	);

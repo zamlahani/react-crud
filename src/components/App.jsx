@@ -16,8 +16,6 @@ import NavBar from './common/bulma/Navbar';
 import Flex from './common/glamorous/Flex';
 
 const URL = {
-  REDUX_ENTITY: 'https://github.com/mikechabot/redux-entity',
-  REACT_ROUTER: 'https://github.com/ReactTraining/react-router',
   BOILERPLATE: '/'
 };
 
@@ -25,7 +23,7 @@ const ColumnBody = ({ title, subtitle, icon, body }) => (
   <Fragment>
     <div>
       <h1 className="title">
-        <Icon icon={icon} className="has-text-info" />
+        <Icon icon={icon} className="has-text-primary" />
         &nbsp;{title}
       </h1>
       <h2 className="subtitle ">
@@ -46,17 +44,11 @@ const Body = ({ location, history }) => {
     <section className="hero">
       <div className="hero-body">
         <div className="container">
-          <button
-            className="button is-primary"
-            onClick={() => dispatch(createTodo())}
-          >
-            <Icon icon="plus" />
-          </button>
-          {isFormModalOpen && <FormModal />}
+          <div>{isFormModalOpen && <FormModal />}</div>
           <div className="columns">
             <div className="column">
               <ColumnBody
-                icon="tree"
+                icon="clock"
                 title="Pending"
                 subtitle={<span>Tugas yang belum selesai</span>}
                 body={
@@ -66,7 +58,7 @@ const Body = ({ location, history }) => {
             </div>
             <div className="column">
               <ColumnBody
-                icon="tree"
+                icon="clipboard-check"
                 title="Done"
                 subtitle={<span>Tugas yang sudah selesai</span>}
                 body={
@@ -76,16 +68,20 @@ const Body = ({ location, history }) => {
             </div>
           </div>
 
-          <div className="columns">
-            <div className="column">
-              <ColumnBody
-                icon="tree"
-                title="State Tree"
-                subtitle={<span>Open devtools to view dispatched actions</span>}
-                body={<ReduxState />}
-              />
+          {false && (
+            <div className="columns">
+              <div className="column">
+                <ColumnBody
+                  icon="tree"
+                  title="State Tree"
+                  subtitle={
+                    <span>Open devtools to view dispatched actions</span>
+                  }
+                  body={<ReduxState />}
+                />
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
     </section>
@@ -97,7 +93,7 @@ const App = ({ location, history }) => {
     doFetch();
   }, []);
   return (
-    <Flex column height="100%" width="100%" justifyContent="space-between">
+    <Flex column height="100%" width="100%">
       <div>
         <NavBar url={URL.BOILERPLATE} label="React CRUD" />
       </div>
