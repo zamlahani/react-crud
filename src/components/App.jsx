@@ -52,11 +52,7 @@ const Body = ({ location, history }) => {
           >
             <Icon icon="plus" />
           </button>
-          {isFormModalOpen && (
-            <FormModal
-              content={{ title: 'OK', description: 'wow', status: 0 }}
-            />
-          )}
+          {isFormModalOpen && <FormModal />}
           <div className="columns">
             <div className="column">
               <ColumnBody

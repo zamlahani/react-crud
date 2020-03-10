@@ -1,16 +1,18 @@
 import React, { Component, useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import _ from 'lodash';
-import { closeFormModal } from '../../redux/actions/action-creators';
+import moment from 'moment';
+import { v4 as uuidv4 } from 'uuid';
+import { closeFormModal, storeTodo } from '../../redux/actions/action-creators';
 import Icon from '../common/Icon';
-export default function FormModal({ content, close }) {
+export default function FormModal({ close }) {
 	const isOpen = useSelector(state => state.formModal.isOpen);
 	const isCreateForm = useSelector(state => state.formModal.isCreateForm);
 	const id = useSelector(state => state.formModal.id);
 	const title = useSelector(state => state.formModal.title);
 	const description = useSelector(state => state.formModal.description);
+	const createdAt = useSelector(state => state.formModal.createdAt);
 	const [state, setState] = useState({
-		id: !_.isEmpty(id) ? id : null,
 		title: !_.isEmpty(title) ? title : '',
 		description: !_.isEmpty(description) ? description : '',
 		status: !_.isEmpty(status) ? status : 0
@@ -27,7 +29,16 @@ export default function FormModal({ content, close }) {
 
 	function handleSubmit(e) {
 		e.preventDefault();
-		console.log(e.target);
+		dispatch(
+			storeTodo({
+				...state,
+				id: !_.isEmpty(id) ? id : uuidv4(),
+				createdAt: !_.isEmpty(createdAt)
+					? createdAt
+					: moment().format('YYYY-MM-DD HH:MM') //"2019-11-15 04:00"
+			})
+		);
+		dispatch(closeFormModal());
 	}
 	useEffect(() => {
 		console.log(state);

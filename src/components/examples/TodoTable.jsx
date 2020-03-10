@@ -8,14 +8,14 @@ export default function TodoTable(props) {
 		<table className="table is-hoverable">
 			<tbody>
 				{props.data.map((val, i) => {
-					return <TheRow key={i} val={val} />;
+					return <TheRow key={i} no={i + 1} val={val} />;
 				})}
 			</tbody>
 		</table>
 	);
 }
 
-function TheRow({ val }) {
+function TheRow({ val, no }) {
 	const [isModalOpen, openModal] = useState(false);
 	function handleClick(e) {
 		e.preventDefault();
@@ -27,7 +27,7 @@ function TheRow({ val }) {
 	return (
 		<tr>
 			<td>
-				<WrapperLink>{val.id}</WrapperLink>
+				<WrapperLink>{no}</WrapperLink>
 			</td>
 			<td>
 				<WrapperLink onClick={handleClick}>{val.title}</WrapperLink>
@@ -42,6 +42,9 @@ function TheRow({ val }) {
 			</td>
 			<td>
 				<WrapperLink>{val.status}</WrapperLink>
+			</td>
+			<td>
+				<WrapperLink>{val.createdAt}</WrapperLink>
 			</td>
 		</tr>
 	);
