@@ -13,10 +13,10 @@ const formModal = (state = INITIAL_STATE.formModal, action) => {
       return { ...state, isOpen: true };
     }
     case CLOSE_FORM_MODAL: {
-      return { ...state, isOpen: false };
+      return { ...state, ...INITIAL_STATE.formModal };
     }
     case EDIT_TODO: {
-      return { ...state, isOpen: true, isCreateForm: false };
+      return { ...state, isOpen: true, isCreateForm: false, ...action.todo };
     }
     default: {
       return state;

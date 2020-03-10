@@ -3,7 +3,8 @@ import {
 	FETCH_POSTS_REQUEST,
 	FETCH_POSTS_FAILURE,
 	FETCH_POSTS_SUCCESS,
-	STORE_TODO
+	STORE_TODO,
+	UPDATE_TODO
 } from '../actions/types';
 
 const todos = (state = INITIAL_STATE.todos, action) => {
@@ -16,6 +17,19 @@ const todos = (state = INITIAL_STATE.todos, action) => {
 			return state;
 		case STORE_TODO:
 			return [...state, { ...action.todo }];
+		case UPDATE_TODO:
+			return state.map((item, index) => {
+				if (index !== action.currentIndex) {
+					// This isn't the item we care about - keep it as-is
+					return item;
+				}
+
+				// Otherwise, this is the one we want - return an updated value
+				return {
+					...item,
+					...action.todo
+				};
+			});
 		default:
 			return state;
 	}

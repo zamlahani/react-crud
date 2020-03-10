@@ -1,9 +1,12 @@
 import React, { Component, useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import _ from 'lodash';
 import moment from 'moment';
 import { v4 as uuidv4 } from 'uuid';
-import { closeFormModal, storeTodo } from '../../redux/actions/action-creators';
+import {
+	closeFormModal,
+	storeTodo,
+	updateTodo
+} from '../../redux/actions/action-creators';
 import Icon from '../common/Icon';
 export default function FormModal({ close }) {
 	const isOpen = useSelector(state => state.formModal.isOpen);
@@ -11,11 +14,17 @@ export default function FormModal({ close }) {
 	const id = useSelector(state => state.formModal.id);
 	const title = useSelector(state => state.formModal.title);
 	const description = useSelector(state => state.formModal.description);
+	const status = useSelector(state => state.formModal.status);
 	const createdAt = useSelector(state => state.formModal.createdAt);
-	const [state, setState] = useState({
-		title: !_.isEmpty(title) ? title : '',
-		description: !_.isEmpty(description) ? description : '',
-		status: !_.isEmpty(status) ? status : 0
+	const currentIndex = useSelector(state => {
+		return state.todos.findIndex(el => {
+			return el.id === id;
+		});
+	});
+	const [fields, setFields] = useState({
+		title,
+		description,
+		status
 	});
 	const dispatch = useDispatch();
 
@@ -24,25 +33,27 @@ export default function FormModal({ close }) {
 		const value =
 			target.name === 'status' ? target.checked * 1 : target.value;
 		const name = target.name;
-		setState({ [name]: value });
+		setFields(fields => ({ ...fields, [name]: value }));
 	}
 
 	function handleSubmit(e) {
 		e.preventDefault();
-		dispatch(
-			storeTodo({
-				...state,
-				id: !_.isEmpty(id) ? id : uuidv4(),
-				createdAt: !_.isEmpty(createdAt)
+		let data = {
+			id: id !== null ? id : uuidv4(),
+			...fields,
+			createdAt:
+				createdAt.length > 0
 					? createdAt
 					: moment().format('YYYY-MM-DD HH:MM') //"2019-11-15 04:00"
-			})
+		};
+		dispatch(
+			isCreateForm ? storeTodo(data) : updateTodo(data, currentIndex)
 		);
 		dispatch(closeFormModal());
 	}
 	useEffect(() => {
-		console.log(state);
-	}, [state]);
+		console.log(fields, id);
+	}, [fields, id]);
 	return (
 		<div className={`modal ${isOpen ? 'is-active' : ''}`}>
 			<div className="modal-background"></div>
@@ -67,7 +78,7 @@ export default function FormModal({ close }) {
 									className="input"
 									type="text"
 									name="title"
-									defaultValue={title}
+									value={fields.title}
 									placeholder="Some Title"
 								/>
 							</div>
@@ -80,7 +91,7 @@ export default function FormModal({ close }) {
 									className="input"
 									type="text"
 									name="description"
-									defaultValue={description}
+									value={fields.description}
 									placeholder="You can type some description here..."
 								/>
 							</div>
@@ -92,6 +103,7 @@ export default function FormModal({ close }) {
 										type="checkbox"
 										name="status"
 										onChange={handleChange}
+										checked={fields.status}
 									/>
 									&nbsp; This task is already done
 								</label>

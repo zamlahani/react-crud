@@ -59,13 +59,20 @@ function WrapperLink(props) {
 }
 
 function DetailModal({ todo, isOpen, close }) {
+	const stateTodo = useSelector(state => {
+		return state.todos[
+			state.todos.findIndex(el => {
+				return el.id === todo.id;
+			})
+		];
+	});
 	const dispatch = useDispatch();
 	function handleClose() {
 		close();
 	}
 	function handleEdit() {
 		close();
-		dispatch(editTodo());
+		dispatch(editTodo(stateTodo));
 	}
 	return (
 		<div className={`modal ${isOpen ? 'is-active' : ''}`}>

@@ -4,15 +4,21 @@ import {
 	TOGGLE_FORM_MODAL,
 	CREATE_TODO,
 	EDIT_TODO,
-	STORE_TODO
+	STORE_TODO,
+	UPDATE_TODO
 } from './types';
 
 export const openFormModal = makeActionCreator(OPEN_FORM_MODAL);
 export const closeFormModal = makeActionCreator(CLOSE_FORM_MODAL);
 export const toggleFormModal = makeActionCreator(TOGGLE_FORM_MODAL);
-export const editTodo = makeActionCreator(EDIT_TODO);
+export const editTodo = makeActionCreator(EDIT_TODO, 'todo');
 export const createTodo = makeActionCreator(CREATE_TODO);
 export const storeTodo = makeActionCreator(STORE_TODO, 'todo');
+export const updateTodo = makeActionCreator(
+	UPDATE_TODO,
+	'todo',
+	'currentIndex'
+);
 
 /**
  * Generic function to generate action creators based on input arguments.
