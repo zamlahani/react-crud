@@ -4,7 +4,8 @@ import {
 	FETCH_POSTS_FAILURE,
 	FETCH_POSTS_SUCCESS,
 	STORE_TODO,
-	UPDATE_TODO
+	UPDATE_TODO,
+	DELETE_TODO
 } from '../actions/types';
 
 const todos = (state = INITIAL_STATE.todos, action) => {
@@ -19,17 +20,16 @@ const todos = (state = INITIAL_STATE.todos, action) => {
 			return [...state, { ...action.todo }];
 		case UPDATE_TODO:
 			return state.map((item, index) => {
-				if (index !== action.currentIndex) {
-					// This isn't the item we care about - keep it as-is
+				if (index !== action.index) {
 					return item;
 				}
-
-				// Otherwise, this is the one we want - return an updated value
 				return {
 					...item,
 					...action.todo
 				};
 			});
+		case DELETE_TODO:
+			return state.filter((item, index) => index !== action.index);
 		default:
 			return state;
 	}

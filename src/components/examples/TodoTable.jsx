@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Icon from '../common/Icon';
 import { useSelector, useDispatch } from 'react-redux';
-import { editTodo } from '../../redux/actions/action-creators';
+import { editTodo, deleteTodo } from '../../redux/actions/action-creators';
 
 export default function TodoTable(props) {
 	return (
@@ -59,12 +59,13 @@ function WrapperLink(props) {
 }
 
 function DetailModal({ todo, isOpen, close }) {
+	const currentIndex = useSelector(state => {
+		return state.todos.findIndex(el => {
+			return el.id === todo.id;
+		});
+	});
 	const stateTodo = useSelector(state => {
-		return state.todos[
-			state.todos.findIndex(el => {
-				return el.id === todo.id;
-			})
-		];
+		return state.todos[currentIndex];
 	});
 	const dispatch = useDispatch();
 	function handleClose() {
@@ -73,6 +74,10 @@ function DetailModal({ todo, isOpen, close }) {
 	function handleEdit() {
 		close();
 		dispatch(editTodo(stateTodo));
+	}
+	function handleDelete() {
+		dispatch(deleteTodo(currentIndex));
+		close();
 	}
 	return (
 		<div className={`modal ${isOpen ? 'is-active' : ''}`}>
@@ -96,9 +101,14 @@ function DetailModal({ todo, isOpen, close }) {
 					<button className="button is-success" onClick={handleEdit}>
 						<Icon icon="edit" />
 					</button>
-					<button className="button is-danger">
-						<Icon icon="trash" />
-					</button>
+					{todo.status !== 1 && (
+						<button
+							className="button is-danger"
+							onClick={handleDelete}
+						>
+							<Icon icon="trash" />
+						</button>
+					)}
 				</footer>
 			</div>
 		</div>

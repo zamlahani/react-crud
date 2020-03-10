@@ -56,7 +56,10 @@ export default function FormModal({ close }) {
 	}, [fields, id]);
 	return (
 		<div className={`modal ${isOpen ? 'is-active' : ''}`}>
-			<div className="modal-background"></div>
+			<div
+				className="modal-background"
+				onClick={() => dispatch(closeFormModal())}
+			></div>
 			<div className="modal-card">
 				<header className="modal-card-head">
 					<p className="modal-card-title">
@@ -112,12 +115,6 @@ export default function FormModal({ close }) {
 						<button type="submit" className="button is-success">
 							<Icon icon="save" />
 						</button>
-						&nbsp;
-						{!isCreateForm && (
-							<button className="button is-danger">
-								<Icon icon="trash" />
-							</button>
-						)}
 					</form>
 				</section>
 			</div>
