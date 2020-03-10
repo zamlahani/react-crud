@@ -18,7 +18,7 @@ const APP_DIR = path.join(__dirname, 'src');
  * Get webpack plugins
  * @returns {*[]}
  */
-function getPlugins () {
+function getPlugins() {
   return [
     // Clear the output dir before builds
     new CleanPlugin({
@@ -43,18 +43,14 @@ function getPlugins () {
     // Pass NODE_ENV and APP_CONFIG to application
     new webpack.DefinePlugin({
       'process.env': {
-        NODE_ENV: JSON.stringify(
-          process.env.NODE_ENV
-        ),
-        APP_CONFIG: JSON.stringify(
-          appConfig
-        )
+        NODE_ENV: JSON.stringify(process.env.NODE_ENV),
+        APP_CONFIG: JSON.stringify(appConfig)
       }
     })
   ];
 }
 
-function getCodeSplittingConfig () {
+function getCodeSplittingConfig() {
   return {
     splitChunks: {
       cacheGroups: {
@@ -86,12 +82,13 @@ function getCodeSplittingConfig () {
  * Get Webpack file parsing rules
  * @returns {*[]}
  */
-function getParserRules () {
+function getParserRules() {
   const devSassLoaders = ['style-loader', 'css-loader', 'sass-loader'];
 
   // Extract CSS and autoprefix
   const prodSassLoaders = [
-    MiniCssExtractPlugin.loader, 'css-loader',
+    MiniCssExtractPlugin.loader,
+    'css-loader',
     {
       loader: 'postcss-loader',
       options: {
@@ -101,7 +98,9 @@ function getParserRules () {
           })
         ]
       }
-    }, 'sass-loader'];
+    },
+    'sass-loader'
+  ];
 
   return [
     {
@@ -136,7 +135,7 @@ const webpackConfig = {};
 // Configure the output directory and bundle name
 webpackConfig.output = {
   path: path.join(__dirname, 'docs'),
-  filename: '[name].[contenthash].js'
+  filename: '[name].[hash].js'
 };
 
 // Allow webpack to automatically resolve import extensions
@@ -168,9 +167,7 @@ if (!NodeUtils.isDevelopment()) {
     'webpack/hot/only-dev-server',
     './src/Bootstrap'
   ];
-  webpackConfig.plugins.push(
-    new webpack.HotModuleReplacementPlugin()
-  );
+  webpackConfig.plugins.push(new webpack.HotModuleReplacementPlugin());
 }
 
 module.exports = webpackConfig;
