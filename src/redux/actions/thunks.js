@@ -1,40 +1,41 @@
-import { ENTITY_KEY } from '../../common/app-const';
-import { loadEntity } from 'redux-entity';
-import ExampleDomainService from '../../services/domain/example-domain-service';
+import {
+	FETCH_POSTS_REQUEST,
+	FETCH_POSTS_FAILURE,
+	FETCH_POSTS_SUCCESS
+} from './types';
 
-/**
- * Thunk action that simulates a delayed API call
- * @returns {Function}  thunk
- */
-export function fetchFoo () {
-  return loadEntity(
-    ENTITY_KEY.FOO,
-    ExampleDomainService.getFakePromise()
-  );
+import store from '../store/';
+import TodoDomainService from '../../services/domain/todo-domain-service';
+
+function requestTodos() {
+	return {
+		type: FETCH_POSTS_REQUEST
+	};
 }
 
-/**
- * Thunk action that simulates a delayed API call
- * @returns {Function}  thunk
- */
-export function fetchBar () {
-  return loadEntity(
-    ENTITY_KEY.BAR,
-    ExampleDomainService.getFakePromise(),
-    { append: true }
-  );
+function receivedTodos(todos) {
+	return {
+		type: FETCH_POSTS_SUCCESS,
+		todos
+	};
+}
+function failedTodos(todos) {
+	return {
+		type: FETCH_POSTS_FAILURE
+	};
 }
 
-/**
- * Thunk action that simulates a delayed, failed API call
- * @returns {Function}  thunk
- */
-export function fetchBaz () {
-  return loadEntity(
-    ENTITY_KEY.BAZ,
-    ExampleDomainService.getFakePromise(true)
-      .catch(error => {
-        console.error(error);
-      })
-  );
+export function fetchTodos() {
+	return dispatch => {
+		dispatch(requestTodos());
+		return TodoDomainService.getTodos()
+			.then(data => dispatch(receivedTodos(data)))
+			.catch(error => {
+				dispatch(failedTodos());
+			});
+	};
+}
+
+export function doFetch() {
+	store.dispatch(fetchTodos());
 }

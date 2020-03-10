@@ -3,20 +3,17 @@ import ReactDOM from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
 
 import Root from './Root';
-import configureStore from './redux/store/configure-store';
-import { INITIAL_STATE } from './common/app-const';
+import store from './redux/store/';
 
 // Require globals
 import './scss/style.scss';
 import './assets/images/favicon.ico';
 
-const store = configureStore(INITIAL_STATE);
-
 const ROOT_ELEMENT = 'example-app';
 
 ReactDOM.render(
   <AppContainer>
-    <Root store={store}/>
+    <Root store={store} />
   </AppContainer>,
   document.getElementById(ROOT_ELEMENT)
 );
@@ -27,7 +24,7 @@ if (module.hot) {
     const NextApp = require('./Root').default;
     ReactDOM.render(
       <AppContainer>
-        <NextApp store={store}/>
+        <NextApp store={store} />
       </AppContainer>,
       document.getElementById(ROOT_ELEMENT)
     );
