@@ -1,21 +1,24 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import { useSelector, useDispatch } from 'react-redux';
+
 import { withRouter } from 'react-router-dom';
 
 import { doFetch } from '../redux/actions/thunks';
+import { createTodo } from '../redux/actions/action-creators';
 
 import ReduxState from './examples/ReduxState';
-import AsyncTabbedRouter from './examples/router/AsyncTabbedRouter';
+import TodoTable from './examples/TodoTable';
+import FormModal from './examples/FormModal';
 
 import Icon from './common/Icon';
 import NavBar from './common/bulma/Navbar';
-import Footer from './Footer';
 import Flex from './common/glamorous/Flex';
 
 const URL = {
   REDUX_ENTITY: 'https://github.com/mikechabot/redux-entity',
   REACT_ROUTER: 'https://github.com/ReactTraining/react-router',
-  BOILERPLATE: 'http://www.github.com/mikechabot/react-boilerplate'
+  BOILERPLATE: '/'
 };
 
 const ColumnBody = ({ title, subtitle, icon, body }) => (
@@ -36,32 +39,48 @@ const ColumnBody = ({ title, subtitle, icon, body }) => (
 );
 
 const Body = ({ location, history }) => {
+  const todos = useSelector(state => state.todos);
+  const isFormModalOpen = useSelector(state => state.formModal.isOpen);
+  const dispatch = useDispatch();
   return (
     <section className="hero">
       <div className="hero-body">
         <div className="container">
-          {/* Show router example */}
+          <button
+            className="button is-primary"
+            onClick={() => dispatch(createTodo())}
+          >
+            <Icon icon="plus" />
+          </button>
+          {isFormModalOpen && (
+            <FormModal
+              content={{ title: 'OK', description: 'wow', status: 0 }}
+            />
+          )}
           <div className="columns">
             <div className="column">
               <ColumnBody
-                icon="link"
-                title="Router"
-                subtitle={
-                  <span>
-                    Utilizes <a href={URL.REACT_ROUTER}>react-router</a>&nbsp;v4
-                    for client-side routing
-                  </span>
-                }
+                icon="tree"
+                title="Pending"
+                subtitle={<span>Tugas yang belum selesai</span>}
                 body={
-                  <AsyncTabbedRouter location={location} history={history} />
+                  <TodoTable data={todos.filter(val => val.status === 0)} />
+                }
+              />
+            </div>
+            <div className="column">
+              <ColumnBody
+                icon="tree"
+                title="Done"
+                subtitle={<span>Tugas yang sudah selesai</span>}
+                body={
+                  <TodoTable data={todos.filter(val => val.status === 1)} />
                 }
               />
             </div>
           </div>
 
-          {/* Show redux-entity (AJAX example) */}
           <div className="columns">
-            {/* Show redux state */}
             <div className="column">
               <ColumnBody
                 icon="tree"
@@ -84,10 +103,9 @@ const App = ({ location, history }) => {
   return (
     <Flex column height="100%" width="100%" justifyContent="space-between">
       <div>
-        <NavBar url={URL.BOILERPLATE} label="react-boilerplate" />
+        <NavBar url={URL.BOILERPLATE} label="React CRUD" />
       </div>
       <Body location={location} history={history} />
-      <Footer />
     </Flex>
   );
 };

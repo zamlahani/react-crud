@@ -1,12 +1,16 @@
 import {
-  INCREMENT_COUNTER,
-  DECREMENT_COUNTER,
-  RESET_COUNTER
+	OPEN_FORM_MODAL,
+	CLOSE_FORM_MODAL,
+	TOGGLE_FORM_MODAL,
+	CREATE_TODO,
+	EDIT_TODO
 } from './types';
 
-export const increment = makeActionCreator(INCREMENT_COUNTER);
-export const decrement = makeActionCreator(DECREMENT_COUNTER);
-export const reset = makeActionCreator(RESET_COUNTER);
+export const openFormModal = makeActionCreator(OPEN_FORM_MODAL);
+export const closeFormModal = makeActionCreator(CLOSE_FORM_MODAL);
+export const toggleFormModal = makeActionCreator(TOGGLE_FORM_MODAL);
+export const editTodo = makeActionCreator(EDIT_TODO);
+export const createTodo = makeActionCreator(CREATE_TODO);
 
 /**
  * Generic function to generate action creators based on input arguments.
@@ -17,13 +21,13 @@ export const reset = makeActionCreator(RESET_COUNTER);
  *            const actionCreator = makeActionCreator(actionType, 'data');
  *            actionCreator(123); --> { type: "DO_IT", data: 123 }
  */
-export function makeActionCreator (type, ...keys) {
-  if (!type) throw new Error('Type cannot be null/undefined');
-  return function (...args) {
-    let action = { type };
-    keys.forEach((arg, index) => {
-      action[keys[index]] = args[index];
-    });
-    return action;
-  };
+export function makeActionCreator(type, ...keys) {
+	if (!type) throw new Error('Type cannot be null/undefined');
+	return function(...args) {
+		let action = { type };
+		keys.forEach((arg, index) => {
+			action[keys[index]] = args[index];
+		});
+		return action;
+	};
 }

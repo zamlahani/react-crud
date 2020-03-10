@@ -1,4 +1,13 @@
 export const INITIAL_STATE = {
 	todos: [],
-	counter: 0
+	isFormModalOpen: false,
+	formModal: {
+		isOpen: false,
+		isCreateForm: true,
+		id: null,
+		title: '',
+		description: '',
+		status: 0,
+		createdAt: ''
+	}
 };

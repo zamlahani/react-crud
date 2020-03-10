@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
-import counter from './counter';
+import formModal from './formModal';
 import todos from './todos';
 
 export default combineReducers({
 	todos,
-	counter
+	formModal
 });
