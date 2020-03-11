@@ -16,7 +16,7 @@ import NavBar from './common/bulma/Navbar';
 import Flex from './common/glamorous/Flex';
 
 const URL = {
-  BOILERPLATE: '/'
+  HOME: '/'
 };
 
 const ColumnBody = ({ title, subtitle, icon, body }) => (
@@ -48,40 +48,13 @@ const Body = ({ location, history }) => {
           <div className="columns">
             <div className="column">
               <ColumnBody
-                icon="clock"
-                title="Pending"
-                subtitle={<span>Tugas yang belum selesai</span>}
-                body={
-                  <TodoTable data={todos.filter(val => val.status === 0)} />
-                }
-              />
-            </div>
-            <div className="column">
-              <ColumnBody
-                icon="clipboard-check"
-                title="Done"
-                subtitle={<span>Tugas yang sudah selesai</span>}
-                body={
-                  <TodoTable data={todos.filter(val => val.status === 1)} />
-                }
+                icon="clipboard-list"
+                title="Tugas"
+                subtitle={<span>Daftar tugas Anda</span>}
+                body={<TodoTable data={todos} />}
               />
             </div>
           </div>
-
-          {false && (
-            <div className="columns">
-              <div className="column">
-                <ColumnBody
-                  icon="tree"
-                  title="State Tree"
-                  subtitle={
-                    <span>Open devtools to view dispatched actions</span>
-                  }
-                  body={<ReduxState />}
-                />
-              </div>
-            </div>
-          )}
         </div>
       </div>
     </section>
@@ -89,13 +62,10 @@ const Body = ({ location, history }) => {
 };
 
 const App = ({ location, history }) => {
-  useEffect(() => {
-    doFetch();
-  }, []);
   return (
     <Flex column height="100%" width="100%">
       <div>
-        <NavBar url={URL.BOILERPLATE} label="React CRUD" />
+        <NavBar url={URL.HOME} label="React CRUD" />
       </div>
       <Body location={location} history={history} />
     </Flex>
