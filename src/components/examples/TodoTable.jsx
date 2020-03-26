@@ -21,30 +21,13 @@ function TheTable(props) {
 						<th>Title</th>
 						<th>Description</th>
 						<th>Created At</th>
+						<th>Status</th>
 					</tr>
 				</thead>
 				<tbody>
-					{props.data
-						.sort((a, b) => {
-							let el1, el2;
-							if (a.status === 0) {
-								el1 = a;
-								el2 = b;
-							} else {
-								el1 = b;
-								el2 = a;
-							}
-							if (el1.createdAt < el2.createdAt) {
-								return -1;
-							}
-							if (el1.createdAt > el2.createdAt) {
-								return 1;
-							}
-							return 0;
-						})
-						.map((val, i) => {
-							return <TheRow key={i} no={i + 1} val={val} />;
-						})}
+					{props.data.map((val, i) => {
+						return <TheRow key={i} no={i + 1} val={val} />;
+					})}
 				</tbody>
 			</table>
 		</div>
@@ -64,22 +47,38 @@ function TheRow({ val, no }) {
 		<tr>
 			<th>
 				<WrapperLink onClick={handleClick}>{no}</WrapperLink>
+				{isModalOpen && (
+					<DetailModal
+						isOpen={isModalOpen}
+						close={closeModal}
+						todo={val}
+					/>
+				)}
 			</th>
 			<td>
-				<WrapperLink onClick={handleClick}>{val.title}</WrapperLink>
-				<DetailModal
-					isOpen={isModalOpen}
-					close={closeModal}
-					todo={val}
-				/>
+				<WrapperLink onClick={handleClick}>
+					{val.title ? val.title : '-'}
+				</WrapperLink>
 			</td>
 			<td>
 				<WrapperLink onClick={handleClick}>
-					{val.description}
+					{val.description ? val.description : '-'}
 				</WrapperLink>
 			</td>
 			<td>
 				<WrapperLink onClick={handleClick}>{val.createdAt}</WrapperLink>
+			</td>
+			<td>
+				<WrapperLink onClick={handleClick}>
+					{val.status ? (
+						<Icon
+							icon="check-circle"
+							className="has-text-success"
+						/>
+					) : (
+						<Icon icon="times-circle" className="has-text-danger" />
+					)}
+				</WrapperLink>
 			</td>
 		</tr>
 	);
@@ -119,7 +118,9 @@ function DetailModal({ todo, isOpen, close }) {
 			<div className="modal-background" onClick={handleClose}></div>
 			<div className="modal-card">
 				<header className="modal-card-head">
-					<p className="modal-card-title">{todo.title}</p>
+					<p className="modal-card-title">
+						{todo.title ? todo.title : '(No title)'}
+					</p>
 					<button
 						className="delete"
 						aria-label="close"
@@ -127,23 +128,23 @@ function DetailModal({ todo, isOpen, close }) {
 					></button>
 				</header>
 				<section className="modal-card-body">
-					<div>{todo.description}</div>
+					<div>
+						{todo.description
+							? todo.description
+							: '(No description)'}
+					</div>
 					<div>
 						This task is {todo.status === 1 ? '' : 'not'} done.
 					</div>
 				</section>
 				<footer className="modal-card-foot">
 					<button className="button is-success" onClick={handleEdit}>
-						<Icon icon="edit" />
+						<Icon icon="edit" className="fa-fw" />
 					</button>
-					{todo.status !== 1 && (
-						<button
-							className="button is-danger"
-							onClick={handleDelete}
-						>
-							<Icon icon="trash" />
-						</button>
-					)}
+					&nbsp;
+					<button className="button is-danger" onClick={handleDelete}>
+						<Icon icon="trash" className="fa-fw" />
+					</button>
 				</footer>
 			</div>
 		</div>

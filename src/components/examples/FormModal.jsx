@@ -38,13 +38,11 @@ export default function FormModal({ close }) {
 
 	function handleSubmit(e) {
 		e.preventDefault();
+		let time = moment().format('YYYY-MM-DD HH:mm'); //"2019-11-15 04:00"
 		let data = {
 			id: id !== null ? id : uuidv4(),
 			...fields,
-			createdAt:
-				createdAt.length > 0
-					? createdAt
-					: moment().format('YYYY-MM-DD HH:MM') //"2019-11-15 04:00"
+			createdAt: createdAt.length > 0 ? createdAt : time
 		};
 		dispatch(
 			isCreateForm ? storeTodo(data) : updateTodo(data, currentIndex)
