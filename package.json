@@ -37,7 +37,7 @@
     "report-dir": "./.nyc-coverage"
   },
   "dependencies": {
-    "axios": "^0.18.1",
+    "axios": "^0.21.1",
     "bulma": "^0.7.4",
     "core-js": "^3.0.1",
     "cross-env": "^5.2.0",
